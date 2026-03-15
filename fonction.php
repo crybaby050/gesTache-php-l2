@@ -85,4 +85,28 @@ function supprimerTache(int $id): bool {
     }
     return false;
 }
+
+function getTacheById(int $id, int $userId): ?array {
+    $taches = getAllTachesForUser($userId);
+    
+    foreach($taches as $tache) {
+        if($tache['id'] == $id) {
+            return $tache;
+        }
+    }
+    
+    return null;
+}
+
+function getNomUtilisateur(int $userId): string {
+    if(isset($_SESSION['users'])) {
+        foreach($_SESSION['users'] as $user) {
+            if($user['id'] == $userId) {
+                return $user['nom'];
+            }
+        }
+    }
+    return "Jean Dupont"; // Nom par défaut
+}
+
 ?>

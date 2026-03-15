@@ -77,7 +77,6 @@ if(isset($_GET['filtrer'])){
                 </thead>
                 <!-- Corps du tableau -->
                 <tbody class="bg-white divide-y divide-gray-100">
-                    <!-- Ligne 1 : tâche en cours -->
                     <?php foreach($taches as $tache): ?>
                     <tr class="hover:bg-gray-50 transition-colors">
                         <td class="px-6 py-4 font-medium text-gray-800"><?= $tache['libelle'] ?></td>
