@@ -15,7 +15,7 @@ require_once('head.php');
     }elseif ($page=='supprimer') {
         echo "supprimer";
     }elseif ($page=='terminer') {
-                echo "terminer";
+        echo "terminer";
 
     } else {
         echo "page introuvable";
