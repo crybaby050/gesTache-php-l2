@@ -15,7 +15,21 @@ if ($page == 'liste') {
 } elseif ($page == 'detail') {
     require_once('details.php');
 } elseif ($page == 'supprimer') {
-    echo "supprimer";
+    if(isset($_GET['id']) && !empty($_GET['id'])) {
+        $id = (int)$_GET['id'];
+        
+        $resultat = supprimerTache($id);
+        if($resultat) {
+            header('Location: ' . WEBROOT . '?page=liste&success=supprime');
+            exit;
+        } else {
+            header('Location: ' . WEBROOT . '?page=liste&error=tache_non_trouvee');
+            exit;
+        }
+    }else {
+        header('Location: ' . WEBROOT . '?page=liste&error=id_manquant');
+        exit;
+    }
 } elseif ($page == 'terminer') {
     
     if(isset($_GET['id']) && !empty($_GET['id'])) {

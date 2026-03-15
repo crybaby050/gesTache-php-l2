@@ -91,21 +91,22 @@ if(isset($_GET['filtrer'])){
                         </td>
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-2">
-                                <?php if($tache['etat'] == 1): // Si la tâche est en cours ?>
-                                    <!-- Bouton Terminer actif (vert) -->
+                                <a href="<?= WEBROOT ?>?page=detail&id=<?= $tache['id'] ?>" class="inline-flex items-center gap-1 text-blue-600 hover:text-blue-800 hover:bg-blue-50 px-3 py-1 rounded-full transition-all bg-blue-200" title="Voir les détails de cette tâche">
+                                    <i class="fas fa-info-circle text-lg"></i>
+                                    <span class="text-xs font-medium">Détail</span>
+                                </a>
+                                <?php if($tache['etat'] == 1): ?>
                                     <a href="<?= WEBROOT ?>?page=terminer&id=<?= $tache['id'] ?>" class="inline-flex items-center gap-1 text-green-600 hover:text-green-800 hover:bg-green-50 px-3 py-1 rounded-full transition-all bg-green-200" title="Terminer cette tâche">
                                         <i class="fas fa-check-circle text-lg"></i>
                                         <span class="text-xs font-medium">Terminer</span>
                                     </a>
-                                <?php else: // Si la tâche est terminée ?>
-                                    <!-- Bouton Terminer désactivé (gris) -->
+                                <?php else: ?>
                                     <span class="inline-flex items-center gap-1 text-gray-400 px-3 py-1 rounded-full bg-gray-100 cursor-not-allowed" title="Cette tâche est déjà terminée">
                                         <i class="fas fa-check-circle text-lg"></i>
                                         <span class="text-xs font-medium">Terminée</span>
                                     </span>
                                 <?php endif; ?>
                                 
-                                <!-- Bouton Supprimer (toujours actif) -->
                                 <a href="<?= WEBROOT ?>?page=supprimer&id=<?= $tache['id'] ?>" class="inline-flex items-center gap-1 text-red-600 hover:text-red-800 hover:bg-red-50 px-3 py-1 rounded-full transition-all bg-red-200" title="Supprimer cette tâche">
                                     <i class="fas fa-trash-alt text-lg"></i>
                                     <span class="text-xs font-medium">Supprimer</span>

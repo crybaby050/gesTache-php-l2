@@ -70,4 +70,19 @@ function terminerTache(int $id): bool {
     return false;
 }
 
+function supprimerTache(int $id): bool {
+    // Parcourir les tâches pour trouver celle avec l'ID correspondant
+    foreach($_SESSION['taches'] as $key => $tache) {
+        if(isset($tache['id']) && $tache['id'] == $id) {
+            // Supprimer la tâche du tableau
+            unset($_SESSION['taches'][$key]);
+            // Réindexer le tableau pour éviter les trous
+            $_SESSION['taches'] = array_values($_SESSION['taches']);
+            
+            error_log("supprimerTache: Tâche ID $id supprimée avec succès");
+            return true;
+        }
+    }
+    return false;
+}
 ?>
