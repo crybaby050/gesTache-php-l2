@@ -55,6 +55,7 @@ function addTache($libelle, $desc, $date){
     ];
     $_SESSION['taches'][] = $newTache;
 }
+
 function terminerTache(int $id): bool {
     // Parcourir les tâches pour trouver celle avec l'ID correspondant
     foreach($_SESSION['taches'] as $key => $tache) {
@@ -68,4 +69,5 @@ function terminerTache(int $id): bool {
     // Tâche non trouvée
     return false;
 }
+
 ?>
