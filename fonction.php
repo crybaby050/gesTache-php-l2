@@ -1,57 +1,71 @@
 <?php
-//LES FONCTION POUR LA PARTIE LISTE DES TACHES
+// fonction.php
 
-//fonction qui me retourne n=un nouveau id
-function newId() {
-    $maxId = 0;
-    foreach ($_SESSION['taches'] as $tache) {
-        if ($tache['id'] > $maxId) {
-            $maxId = $tache['id'];
-        }
-    }
-    return $maxId + 1;
-}
-
-//fonction qui me retourne les tahes d'un utilisateur specifique en fonction de son id
-function getAllTachesForUser(int $id):array{
+function getAllTachesForUser(int $id): array {
     $tab = [];
-    $taches = $_SESSION['taches'];
-    foreach($taches as $tache){
-        if($tache['id_user'] == $id){
-            $tab[] = $tache;
+    if(isset($_SESSION['taches'])) {
+        foreach($_SESSION['taches'] as $tache){
+            if($tache['id_user'] == $id){
+                $tab[] = $tache;
+            }
         }
     }
     return $tab;
 }
 
-//fonction qui me permet de faire des etats un chiffre
-function toEtatToNum($etat){
-    if(strtolower($etat) == 'termine'){
-        return 0;
-    }else{
-        return 1;
-    }
-}
-
-//filtre de tache par etat
-function filterTache($taches,$fil){
+function filterTache($taches, $fil) {
     $filtre = [];
+    $etatNum = ($fil == 'termine' || $fil == 'Terminé') ? 0 : 1;
     foreach($taches as $tache){
-        if($tache['etat'] == toEtatToNum($fil)){
+        if($tache['etat'] == $etatNum){
             $filtre[] = $tache;
         }
     }
     return $filtre;
 }
 
-//enregistrement d'une nouvelle tache
-function addTache($libelle,$desc,$date){
+function etatTache($tache) {
+    return ($tache['etat'] == 1) ? "En cours" : "Terminé";
+}
+
+function toEtatToNum($etat){
+    return (strtolower($etat) == 'termine' || strtolower($etat) == 'terminé') ? 0 : 1;
+}
+
+function newId() {
+    $maxId = 0;
+    if(isset($_SESSION['taches'])) {
+        foreach ($_SESSION['taches'] as $tache) {
+            if ($tache['id'] > $maxId) {
+                $maxId = $tache['id'];
+            }
+        }
+    }
+    return $maxId + 1;
+}
+
+function addTache($libelle, $desc, $date){
     $newTache = [
         'id' => newId(),
         'libelle' => $libelle,        
         'description' => $desc,
         'date' => $date,
-        'etat' => 1
+        'etat' => 1,
+        'id_user' => 1
     ];
     $_SESSION['taches'][] = $newTache;
 }
+function terminerTache(int $id): bool {
+    // Parcourir les tâches pour trouver celle avec l'ID correspondant
+    foreach($_SESSION['taches'] as $key => $tache) {
+        if(isset($tache['id']) && $tache['id'] == $id) {
+            // Modifier l'état de la tâche (0 = terminé)
+            $_SESSION['taches'][$key]['etat'] = 0;
+            return true;
+        }
+    }
+    
+    // Tâche non trouvée
+    return false;
+}
+?>

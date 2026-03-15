@@ -1,21 +1,15 @@
 <?php
-require_once __DIR__ . '/fonction.php';
+require_once('fonction.php');
 
-// Récupérer toutes les tâches
 $taches = getAllTachesForUser(1);
 
-// Appliquer le filtre si présent dans l'URL
-if(isset($_GET['etat']) && !empty($_GET['etat'])){
-    $etat = trim($_GET['etat']);
-    $taches = filterTache($taches, $etat);
+if(isset($_GET['filtrer'])){
+    if(isset($_GET['etat']) && !empty($_GET['etat'])) {
+        $etat = trim($_GET['etat']);
+        $taches = filterTache($taches, $etat);
+    }
 }
 
-if(isset($_POST['enregistrer'])){
-    $libelle = trim($_POST['libelle']);
-    $desc = trim($_POST['description']);
-    $date = trim($_POST['date']);
-    addTache($libelle,$desc,$date);
-}
 ?>
 
 <body class="bg-gray-100 p-6 font-sans">
@@ -97,14 +91,25 @@ if(isset($_POST['enregistrer'])){
                         </td>
                         <td class="px-6 py-4">
                             <div class="flex items-center gap-2">
-                                <button class="text-green-600 hover:text-green-800 hover:bg-green-50 pl-2 pr-2 rounded-full transition-all bg-green-200" title="Terminer">
-                                    <i class="fas fa-check-circle text-lg"></i>
-                                    <a href="<?= WEBROOT ?>?page=terminer&id=<?= $tache['id'] ?>"><span class="text-xs font-medium ">Terminer</span></a>
-                                </button>
-                                <button class="text-red-600 hover:text-red-800 hover:bg-red-50 pl-2 pr-2 rounded-full transition-all bg-red-200" title="Supprimer">
+                                <?php if($tache['etat'] == 1): // Si la tâche est en cours ?>
+                                    <!-- Bouton Terminer actif (vert) -->
+                                    <a href="<?= WEBROOT ?>?page=terminer&id=<?= $tache['id'] ?>" class="inline-flex items-center gap-1 text-green-600 hover:text-green-800 hover:bg-green-50 px-3 py-1 rounded-full transition-all bg-green-200" title="Terminer cette tâche">
+                                        <i class="fas fa-check-circle text-lg"></i>
+                                        <span class="text-xs font-medium">Terminer</span>
+                                    </a>
+                                <?php else: // Si la tâche est terminée ?>
+                                    <!-- Bouton Terminer désactivé (gris) -->
+                                    <span class="inline-flex items-center gap-1 text-gray-400 px-3 py-1 rounded-full bg-gray-100 cursor-not-allowed" title="Cette tâche est déjà terminée">
+                                        <i class="fas fa-check-circle text-lg"></i>
+                                        <span class="text-xs font-medium">Terminée</span>
+                                    </span>
+                                <?php endif; ?>
+                                
+                                <!-- Bouton Supprimer (toujours actif) -->
+                                <a href="<?= WEBROOT ?>?page=supprimer&id=<?= $tache['id'] ?>" class="inline-flex items-center gap-1 text-red-600 hover:text-red-800 hover:bg-red-50 px-3 py-1 rounded-full transition-all bg-red-200" title="Supprimer cette tâche">
                                     <i class="fas fa-trash-alt text-lg"></i>
-                                    <a href="<?= WEBROOT ?>?page=supprimer&id=<?= $tache['id'] ?>"><span class="text-xs font-medium">Supprimer</span></a>
-                                </button>
+                                    <span class="text-xs font-medium">Supprimer</span>
+                                </a>
                             </div>
                         </td>
                     </tr>
