@@ -48,18 +48,17 @@ function addTache(array $tache) :void{
     $taches[] = $tache;
     $_SESSION['taches'] = $taches;
 }
-
 function getTachesByStatut($etat){
-    $taches=getAllTaches();
-    return array_filter($taches,fn(t)=>t['statut']==$etat);
+    $taches = getAllTaches();
+    return array_filter($taches, fn($t) => $t['statut'] == $etat);
 }
 
 function deleteTache(int $id):void{
 $taches = getAllTaches();
     foreach ($taches as $key=>$tache) {
         if ($tache['id'] == $id) {
-           unset($taches[$key]);
-           $_SESSION['taches']=$taches;
+            unset($taches[$key]);
+            $_SESSION['taches']=$taches;
         }
     }
 }
@@ -68,8 +67,8 @@ function marquerTerminer(int $id):void{
     $taches = getAllTaches();
     foreach ($taches as $key=>$tache) {
         if ($tache['id'] == $id) {
-           $taches[$key]['statut']="Terminer";
-           $_SESSION['taches']=$taches;
+            $taches[$key]['statut']="Terminer";
+            $_SESSION['taches']=$taches;
         }
     }
 }

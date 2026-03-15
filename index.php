@@ -1,22 +1,12 @@
 <?php 
 define("WEBROOT","localhost:8000/");
 require_once('data.php');
- ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GEstion des taches</title>
-</head>
-<body>
-    <div>
-        <a href="<?=WEBROOT?>?page=liste"> liste</a>
-        <a href="<?=WEBROOT?>?page=ajout"> Ajout</a>
-    </div>
+require_once('head.php');
+?>
+
     <?php
     $page=$_REQUEST['page']??'liste';
-    if ($page=='liste') {
+    if ($page == 'liste') {
         require_once('liste.php');
     } elseif ($page=='ajout') {
         require_once('ajout.php');
